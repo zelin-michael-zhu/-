@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: applypilot-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: applypilot
+      MYSQL_USER: applypilot
+      MYSQL_PASSWORD: applypilot_dev_password
+      MYSQL_ROOT_PASSWORD: applypilot_root_password
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "${MYSQL_HOST_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uapplypilot", "-papplypilot_dev_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:

@@ -1,0 +1,10 @@
+import { Card } from "../common/Card";
+import { ActionLog } from "./ActionLog";
+import { HumanApprovalCard } from "./HumanApprovalCard";
+
+export function BrowserAgentConsole({ locale }: { locale: string }) {
+  const zh = locale === "zh";
+  const steps = locale === "zh" ? ["启动任务", "读取本地表单", "准备字段", "等待确认", "保存草稿"] : ["Start task", "Read local form", "Prepare fields", "Wait approval", "Save draft"];
+  const fields = zh ? ["名：Zeklin", "姓：Zhu", "邮箱：demo@applypilot.local", "学校：BNU-HKBU United International College", "专业：Business Analytics", "GPA：3.62/4.0"] : ["First name: Zeklin", "Last name: Zhu", "Email: demo@applypilot.local", "University: BNU-HKBU United International College", "Major: Business Analytics", "GPA: 3.62/4.0"];
+  return <div className="grid gap-6 xl:grid-cols-[240px_minmax(0,1fr)_320px]"><Card className="p-5"><h3 className="font-semibold">{zh ? "任务步骤" : "Task Steps"}</h3><div className="mt-4 space-y-3">{steps.map((s, i) => <div key={s} className={`rounded-xl p-3 text-sm ${i < 3 ? "bg-indigo-50 text-indigo-700" : "bg-gray-50 text-muted"}`}>{s}</div>)}</div></Card><Card className="min-h-[560px] p-5"><h3 className="font-semibold">{zh ? "浏览器预览" : "Browser Preview"}</h3><div className="mt-4 h-[480px] rounded-2xl border border-line bg-gray-50 p-6"><div className="mx-auto max-w-xl rounded-2xl bg-white p-6 shadow-soft"><h2 className="text-xl font-bold">{zh ? "本地样例申请表" : "Sample Graduate Application Form"}</h2><div className="mt-5 grid gap-3">{fields.map((x) => <div className="rounded-xl border border-line px-3 py-2 text-sm" key={x}>{x}</div>)}<button className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white">{zh ? "保存草稿" : "Save Draft"}</button><button disabled className="rounded-xl bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-500">{zh ? "MVP 禁用最终提交" : "Submit Disabled in MVP"}</button></div></div></div><p className="mt-4 text-sm text-amber-700">{zh ? "MVP 禁用最终提交和付款；系统会始终在最终提交前停止。" : "Final submission and payment are disabled in MVP. The system will always stop before final submit."}</p></Card><div className="space-y-6"><ActionLog locale={locale} /><HumanApprovalCard locale={locale} /></div></div>;
+}
